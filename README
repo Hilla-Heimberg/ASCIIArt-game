@@ -1,0 +1,108 @@
+hilla_heimberg
+208916221
+
+=============================
+=      File description     =
+=============================
+1. Package- ascii_art -
+Classes -
+* ascii_art.Driver.java - It has the main method which runs this all project.
+* ascii_art.Shell.java - This class will perform all interface operations and will be operated by the "Driver"
+ class.
+* ascii_art.Algorithms.java - Class which contains solutions for algorithms questions.
+
+1.1. Package- img_to_char
+Classes-
+* BrightnessImgCharMatcher.java - It's responsible for the all logic of converting color image to ascii image.
+* CharRenderer.java - The class renders (draws) characters to a binary "image" (2D array of booleans).
+
+2. README
+
+=========================================================
+=          Design and Implementation details            =
+=========================================================
+# Implementing the matching between the brightness level to the pixel- see below in the "Answers to questions"
+part.
+
+# Implementing from the collection package -
+In this project, I used "HashMap" in order to save run time.
+HashMap is known in having quick access to values, so I used it in my "checksClosestValue" and
+"calculationBrightnessAverage" methods in the "BrightnessImgCharMatcher" class.
+I used the HashMap (named cache) for mapping each sub image to its average brightness value and for keeping it
+for reuse.
+Namely, whenever we want to render the same image once again, its value will already be saved in the
+HashMap and thus will save us a lot of run time.
+
+# First I thought to use "exceptions" but in the end I decided there is no need for this because the type of
+"treatment" is the same for everyone. I handled the invalid inputs by printing an error message for the user
+from the method "printErrorMessage".
+
+# I used Switch-Cases because I saw it suitable and elegant way to take care about all the input types.
+
+# I don't think there is need for changing part1 of the exercise by adding collections besides the cache
+HashMap.
+
+# In part1 of this exercise I used variables of type "Float" but in part2 I changed it to "Double" in order to
+raise the level of the accuracy in all the calculations.
+
+=============================
+=   Answers to questions   =
+=============================
+Explanation about the way I matched the brightness level to the pixel:
+The process-
+1. I created an array of brightness values of all the characters-
+For each character, I calculated the brightness value and normalized it by linear stretching.
+2. I sent the updated array brightness values, the array of characters and the number of characters in a row
+to the convert method "convertImageToAscii" and in this method I performed the following inner-process:
+- I divided the image into sub-images and for each sub-image:
+    * I calculated the average brightness value.
+    * I looked for a value that is the closest to the average brightness value (by Math.abs- absolute value)
+    * I matched between the closest value to the suitable character in the charSet (the array of characters)
+      and updated the corresponding character in the ascii array.
+
+Explanation about the algorithms:
+"findDuplicate" -
+1. Correctness - I considers the array as a sort of linked list (this is possible because of the constraint
+that each integer is between 1 and n) and I use those following facts:
+* duplicate exists when a cycle does exist.
+* the duplicate is the entry point of the cycle.
+So, in my first while loop - I check if there is a cycle in the "linked list" by doing the famous "The
+rabbit and the turtle" trick (I use two "pointers" (variables) initialized to the same place in the array but
+the difference between them is that one pointer is advance by just one step ("the turtle") and the other
+pointer advance by jumping two steps ("the rabbit"). If there is a cycle - they will "meet in the same place"
+in the array.
+If so - In the second while loop - I search the duplicate number, namely the number which repeats twice or
+more in the array. For doing that I reset only the pointer of the turtle and move both pointers step by step
+until they are equals again. Finally - I return "the pointer".
+I will also mention that this solution based on "Floyd’s cycle-finding algorithm".
+2. Run Time analysis - O(n), and O(1) space-limit. explanation-
+- First while loop for checking the existing of the cycle - in the worst case I will move on all the array -
+ O(numbers in the array) = O(n).
+- Second while loop for finding the duplicate number - in the worst case I will move on all the array - O(n).
+- Keeping only 2 variables ("the pointers") - "slowTurtle", "fastRabbit" =  O(2) = O(1).
+Sum total - O(n) + O(n) = O(n) run time and O(1) space-limit.
+
+"uniqueMorseRepresentations"-
+1. Correctness - I keep two arrays - "morseArray", "abcArray", and I keep one HashMap
+"mappingFromCharToMorse", and one HashSet "setOfMorseTranslations".
+First, I matched between all the regular chars to their Morse chars and kept it in the
+"mappingFromCharToMorse". After, I matched between all the words (from the words input array) to their
+Morse translations and kept it in the "setOfMorseTranslations" and finally I returned the size of the
+"setOfMorseTranslations". The size of this HashSet is the amount of unique Morse representations because I
+maintained irreversibility by using this data structure. It's known that set prevents duplications and adds
+value if it is not already there.
+2. Run Time analysis - O(sum of the words lengths in the list) = O(S). explanation-
+- initialize the HashMap "mappingFromCharToMorse" - O(numbers of chars) = O(27).
+- initialize the HashSet "mappingFromStringToMorse" - For loop - for each word we are going over it's length
+(Total O(S)).
+- The using of Hashing help us to save run time.
+Sum total - O(27) + O(S) = O(S).
+
+=============================
+      =    Remark   =
+=============================
+Attached the bonus ascii image that I made for you.
+I hope you will recognize it and that it will make you laugh.
+Attached - the original picture "bonus.png", afterAsciiProcess in pdf "bonusresult.pdf" .
+
+HAVE A GOOD DAY :D
